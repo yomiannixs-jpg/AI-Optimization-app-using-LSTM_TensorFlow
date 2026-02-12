@@ -1,0 +1,23 @@
+\
+@echo off
+setlocal
+echo == Build NGX_AI_Optimization (Python 3.11) ==
+
+py -3.11 -m venv venv311
+call venv311\Scripts\activate.bat
+
+python -m pip install --upgrade pip
+pip install -r ngx_ai_app\requirements.txt
+pip install tensorflow==2.15.*
+pip install pyinstaller
+
+pyinstaller --noconfirm --clean --onedir --name "NGX_AI_Optimization" ^
+  --add-data "ngx_ai_app\*;ngx_ai_app" ^
+  --collect-all streamlit ^
+  --collect-all tensorflow ^
+  --collect-all keras ^
+  --collect-all tensorboard ^
+  desktop_launcher.py
+
+echo DONE. Run dist\NGX_AI_Optimization\NGX_AI_Optimization.exe
+pause
